@@ -38,7 +38,7 @@ class ProductDetail extends React.Component<{}, ProductState> {
      */
     render() {
         return (
-            <ProductInfo product={this.state.product} colors={this.state.colors} selectedColor={this.state.selectedColor} changedColor={this.changedColor} />
+            <ProductInfo product={this.state.product} colors={this.state.colors} selectedColor={this.state.selectedColor} changedColor={this.changedColor} sizes={this.state.sizes} selectedSize={this.state.selectedSize} changedSize={this.changedSize}/>
         )
     }
 
@@ -56,7 +56,15 @@ class ProductDetail extends React.Component<{}, ProductState> {
                 let sizes = [] as string[];
 
                 if (colors.length  >= 1) {
+                    const defaultSelectedColor = colors[0];
                     sizes = helper.getSizes(colors[0]);
+
+                    if(sizes.length >= 1) {
+                        const defaultSelectedSize = sizes[0];
+                        this.setState({selectedSize: defaultSelectedSize});
+                    }
+
+                    this.setState({selectedColor: defaultSelectedColor});
                 }
 
                 console.log("Sizes: " + sizes);
@@ -75,6 +83,17 @@ class ProductDetail extends React.Component<{}, ProductState> {
 
         this.setState({
             selectedColor: value
+        })
+    } 
+
+    changedSize = (event: any) => {
+        let target = event.currentTarget as HTMLSelectElement;
+        let value = target.value;
+
+        console.log("selectedSize: " + value);
+
+        this.setState({
+            selectedSize: value
         })
     } 
 }
