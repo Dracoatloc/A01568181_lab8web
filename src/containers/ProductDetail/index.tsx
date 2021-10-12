@@ -38,7 +38,7 @@ class ProductDetail extends React.Component<{}, ProductState> {
      */
     render() {
         return (
-            <ProductInfo product={this.state.product} colors={this.state.colors} selectedColor={this.state.selectedColor} changedColor={this.changedColor} sizes={this.state.sizes} selectedSize={this.state.selectedSize} changedSize={this.changedSize}/>
+            <ProductInfo product={this.state.product} colors={this.state.colors} selectedColor={this.state.selectedColor} changedColor={this.changedColor} sizes={this.state.sizes} selectedSize={this.state.selectedSize} changedSize={this.changedSize} sku={this.state.sku}/>
         )
     }
 
@@ -61,7 +61,8 @@ class ProductDetail extends React.Component<{}, ProductState> {
 
                     if(sizes.length >= 1) {
                         const defaultSelectedSize = sizes[0];
-                        this.setState({selectedSize: defaultSelectedSize});
+                        const sku = helper.getSku(defaultSelectedColor, defaultSelectedSize);
+                        this.setState({selectedSize: defaultSelectedSize, sku});
                     }
 
                     this.setState({selectedColor: defaultSelectedColor});
@@ -88,18 +89,20 @@ class ProductDetail extends React.Component<{}, ProductState> {
 
         if(sizes.length >= 1) {
             const defaultSelectedSize = sizes[0];
-            this.setState({selectedSize: defaultSelectedSize});
+            const sku = helper.getSku(value, sizes[0]);
+            this.setState({selectedSize: defaultSelectedSize, sku});
         }
-    } 
+    }
 
     changedSize = (event: any) => {
         let target = event.currentTarget as HTMLSelectElement;
         let value = target.value;
 
         console.log("selectedSize: " + value);
-
+        const sku = this.state.helper.getSku(this.state.selectedColor, this.state.selectedSize);
         this.setState({
-            selectedSize: value
+            selectedSize: value,
+            sku
         })
     } 
 }
